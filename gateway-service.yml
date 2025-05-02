@@ -4,19 +4,23 @@ server:
 spring:
   application:
     name: gateway-service
-
+  config:
+    import: configserver:http://config-service:8888  # Ключевая строка!
+  
   cloud:
     gateway:
       routes:
         - id: order-service
-          uri: http://localhost:8081
+          uri: lb://order-service  # Используем имя сервиса из Eureka
           predicates:
             - Path=/api/orders/**
+    config:
+      fail-fast: true  # Остановиться если Config Server недоступен
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://discovery-service:8761/eureka/  # Исправляем localhost на имя сервиса
 
 management:
   endpoints:
