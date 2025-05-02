@@ -2,29 +2,36 @@ server:
   port: 8761  # Стандартный порт Eureka
 
 spring:
-  application:
-    name: discovery-service  # Имя сервиса (для Config Server и логирования)
+  main:
+    allow-bean-definition-overriding: true  # Для совместимости с Spring Cloud
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:default}  # Активация профиля через переменные
 
 # Настройки Eureka Server
 eureka:
   instance:
-    hostname: discovery-service  # Должен совпадать с именем в Docker
-    prefer-ip-address: false     # Не использовать IP (важно для Docker)
+    hostname: discovery-service1  # Должен совпадать с DNS в Docker
+    prefer-ip-address: false    # Для Docker false, для k8s - true
   client:
-    register-with-eureka: false  # Не регистрировать себя в Eureka
-    fetch-registry: false        # Не загружать реестр (если нет кластера)
+    register-with-eureka: false # Не регистрировать себя
+    fetch-registry: false       # Не загружать реестр (если нет кластера)
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
-    enable-self-preservation: false  # Отключить для тестов (в prod — true)
-    eviction-interval-timer-in-ms: 5000  # Частота очистки мертвых инстансов (5 сек)
+    enable-self-preservation: ${EUREKA_SELF_PRESERVATION:false}  # true для prod
+    eviction-interval-timer-in-ms: 10000  # Частота очистки неактивных инстансов (10 сек)
 
-# Health-чек для Docker
+# Настройки для Actuator (health checks)
 management:
   endpoint:
     health:
       show-details: always
+    shutdown:
+      enabled: true
   endpoints:
     web:
       exposure:
         include: health,info,metrics
+  health:
+    diskspace:
+      enabled: true
