@@ -23,8 +23,13 @@ spring:
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://discovery-service:8761/eureka/  # Исправляем localhost на имя сервиса
+    service-url:
+      defaultZone: http://discovery-service1:8761/eureka/
+    register-with-eureka: true  # Явное указание
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
 
 management:
   endpoints:
