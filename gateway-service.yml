@@ -4,28 +4,26 @@ server:
 spring:
   application:
     name: gateway-service
-  config:
-    import: optional:configserver:http://config-service:8888  # Сделать запрос опциональным
-  
   cloud:
-    gateway:
-      routes:
-        - id: order-service
-          uri: lb://order-service  # Используем имя сервиса из Eureka
-          predicates:
-            - Path=/api/orders/**
     config:
-      fail-fast: true  # Остановиться если Config Server недоступен
+      uri: http://config-service:8888
+      fail-fast: true
       retry:
         initial-interval: 3000
         max-interval: 10000
         max-attempts: 10
+    gateway:
+      routes:
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/**
 
 eureka:
   client:
     service-url:
       defaultZone: http://discovery-service1:8761/eureka/
-    register-with-eureka: true  # Явное указание
+    register-with-eureka: true
     fetch-registry: true
   instance:
     prefer-ip-address: true
