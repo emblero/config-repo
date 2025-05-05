@@ -1,16 +1,21 @@
 server:
   port: 8761
-  address: 0.0.0.0
+  address: 0.0.0.0  # Слушать на всех интерфейсах
 
 eureka:
   instance:
-    hostname: discovery-service1
-    prefer-ip-address: true
+    hostname: discovery-service1  # Явное указание hostname
+    prefer-ip-address: false      # Важно для Docker-сетей
+    lease-renewal-interval-in-seconds: 5      # Для быстрой реакции в dev-среде
+    lease-expiration-duration-in-seconds: 10  # Быстрое удаление неактивных инстансов
+
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: false    # Не регистрировать себя
+    fetch-registry: false         # Не загружать реестр
     service-url:
       defaultZone: http://discovery-service1:8761/eureka/
-    server:
-    enable-self-preservation: false  # Отключает защиту "self-preservation" для тестовой среды
-    wait-time-in-ms-when-sync-empty: 0  # Ускоряет обработку пустого реестра
+
+  server:
+    enable-self-preservation: false  # Отключаем защиту для тестовой среды
+    wait-time-in-ms-when-sync-empty: 0  # Ускоряем старт
+    eviction-interval-timer-in-ms: 5000  # Частота проверки (5 сек)
