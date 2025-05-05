@@ -1,29 +1,32 @@
 server:
   port: 8761
-  address: 0.0.0.0
+  address: 0.0.0.0  # Слушаем на всех интерфейсах
 
 eureka:
   instance:
-    hostname: discovery-service1
-    prefer-ip-address: false
-    instance-id: ${eureka.instance.hostname}:${server.port}
+    hostname: discovery-service1  # Должно совпадать с именем в docker-compose
+    prefer-ip-address: false       # Обязательно false для Docker
+    instance-id: ${eureka.instance.hostname}:${server.port}  # Уникальный ID
+    appname: discovery-service1    # Явное указание имени приложения
 
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: false    # Не регистрировать себя как клиента
+    fetch-registry: false          # Не загружать реестр
     service-url:
       defaultZone: http://discovery-service1:8761/eureka/
     healthcheck:
-      enabled: true
+      enabled: true                # Включить health checks
+    availability-zones:
+      default: http://discovery-service1:8761/eureka/  # Для кластерной работы
 
   server:
-    enable-self-preservation: false
-    wait-time-in-ms-when-sync-empty: 0
-    eviction-interval-timer-in-ms: 5000
-    peer-node-connect-timeout-ms: 1000
-    peer-node-read-timeout-ms: 1000
-    response-cache-update-interval-ms: 1000
-    use-dns-for-fetching-service-urls: false
-    # Добавьте эти параметры:
-    peer-eureka-nodes: discovery-service1:8761
-    peer-node-url: http://discovery-service1:8761/eureka/  # Критически важный параметр
+    enable-self-preservation: false       # Отключить для тестовой среды
+    wait-time-in-ms-when-sync-empty: 0   # Ускорить старт
+    eviction-interval-timer-in-ms: 5000   # Частота проверки (5 сек)
+    peer-node-connect-timeout-ms: 1000    # Таймаут подключения
+    peer-node-read-timeout-ms: 1000       # Таймаут чтения
+    response-cache-update-interval-ms: 1000 # Частота обновления кеша
+    use-dns-for-fetching-service-urls: false # Отключить DNS-поиск
+    peer-eureka-nodes: discovery-service1:8761  # Явное указание нод
+    peer-node-url: http://discovery-service1:8761/eureka/  # Критически важно!
+    hostname: discovery-service1          # Дублируем для надежности
