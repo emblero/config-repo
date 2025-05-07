@@ -1,21 +1,21 @@
 server:
   port: 8761
-  address: 0.0.0.0
+  address: 0.0.0.0  # Чтобы Eureka слушала все интерфейсы контейнера
 
 eureka:
   instance:
-    hostname: discovery-service1
-    prefer-ip-address: false
-    instance-id: ${eureka.instance.hostname}:${server.port}
-    appname: discovery-service1
+    hostname: discovery-service1  # Указываем имя хоста контейнера
+    prefer-ip-address: false  # Указываем, что не будем предпочитать IP-адрес
+    instance-id: ${eureka.instance.hostname}:${server.port}  # Динамично генерируем ID инстанса
+    appname: discovery-service1  # Имя приложения для Eureka
 
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: false  # Мы не хотим, чтобы этот сервис регистрировался как клиент Eureka
+    fetch-registry: false  # Этот сервис не будет извлекать реестр из Eureka
     service-url:
-      defaultZone: http://discovery-service1:8761/eureka/
+      defaultZone: http://discovery-service1:8761/eureka/  # Адрес Eureka-сервера
     healthcheck:
-      enabled: true
+      enabled: true  # Включаем healthcheck для клиента
 
   server:
-    enable-self-preservation: true
+    enable-self-preservation: true  # Включаем самозащиту, чтобы Eureka не убивала сервисы при кратковременных сбоях
