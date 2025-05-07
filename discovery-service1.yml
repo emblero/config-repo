@@ -1,26 +1,21 @@
 server:
   port: 8761
-  address: 0.0.0.0  # Слушаем на всех интерфейсах
+  address: 0.0.0.0
 
 eureka:
   instance:
-    hostname: discovery-service1  # Должно совпадать с именем в docker-compose
-    prefer-ip-address: false       # Обязательно false для Docker
-    instance-id: ${eureka.instance.hostname}:${server.port}  # Уникальный ID
-    appname: discovery-service1    # Явное указание имени приложения
+    hostname: discovery-service1
+    prefer-ip-address: false
+    instance-id: ${eureka.instance.hostname}:${server.port}
+    appname: discovery-service1
 
   client:
-    register-with-eureka: false    # Не регистрировать себя как клиента
-    fetch-registry: false          # Не загружать реестр
+    register-with-eureka: false
+    fetch-registry: false
     service-url:
       defaultZone: http://discovery-service1:8761/eureka/
     healthcheck:
-      enabled: true                # Включить health checks
-    availability-zones:
-      default: http://discovery-service1:8761/eureka/  # Для кластерной работы
+      enabled: true
 
   server:
-    peer-node-url: http://discovery-service1:8761/eureka/
-    peer-eureka-nodes: discovery-service1:8761
     enable-self-preservation: true
-    use-dns-for-fetching-service-urls: true
