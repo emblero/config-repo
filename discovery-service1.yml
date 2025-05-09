@@ -10,8 +10,8 @@ eureka:
     appname: discovery-service1  # Имя приложения для Eureka
 
   client:
-    register-with-eureka: false  # Мы не хотим, чтобы этот сервис регистрировался как клиент Eureka
-    fetch-registry: false  # Этот сервис не будет извлекать реестр из Eureka
+    register-with-eureka: true  # Этот сервис будет регистрироваться в Eureka
+    fetch-registry: true  # Этот сервис будет извлекать реестр из Eureka
     service-url:
       defaultZone: http://discovery-service1:8761/eureka/  # Адрес Eureka-сервера
     healthcheck:
