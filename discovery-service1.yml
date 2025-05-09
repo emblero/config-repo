@@ -13,7 +13,7 @@ eureka:
     register-with-eureka: true  # Этот сервис будет регистрироваться в Eureka
     fetch-registry: true  # Этот сервис будет извлекать реестр из Eureka
     service-url:
-      defaultZone: http://discovery-service1:8761  # Адрес Eureka-сервера
+      defaultZone: http://localhost:8761 # Адрес Eureka-сервера
     healthcheck:
       enabled: true  # Включаем healthcheck для клиента
 
