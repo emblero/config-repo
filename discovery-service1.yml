@@ -25,6 +25,6 @@ eureka:
     wait-time-in-ms-when-sync-empty: 0
 
   logging:
-  level:
-    com.netflix.discovery: DEBUG
-    com.netflix.eureka: DEBUG
+    level:
+      com.netflix.discovery: DEBUG
+      com.netflix.eureka: DEBUG
