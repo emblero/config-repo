@@ -1,30 +1,25 @@
 server:
   port: 8761
-  address: 0.0.0.0  # Чтобы Eureka слушала все интерфейсы контейнера
+  address: 0.0.0.0
 
 eureka:
   instance:
-    hostname: discovery-service1  # Указываем имя хоста контейнера
-    prefer-ip-address: false  # Указываем, что не будем предпочитать IP-адрес
-    instance-id: ${eureka.instance.hostname}:${server.port}  # Динамично генерируем ID инстанса
-    appname: discovery-service1  # Имя приложения для Eureka
-
+    hostname: discovery-service1
+    prefer-ip-address: false
+    instance-id: ${eureka.instance.hostname}:${server.port}
+    
   client:
-    register-with-eureka: true  # Этот сервис будет регистрироваться в Eureka
-    fetch-registry: true  # Этот сервис будет извлекать реестр из Eureka
+    register-with-eureka: false
+    fetch-registry: false
     service-url:
-      defaultZone: http://localhost:8761/eureka # Адрес Eureka-сервера
-    healthcheck:
-      enabled: true  # Включаем healthcheck для клиента
-
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+    
   server:
-    enable-self-preservation: true  # Включаем самозащиту, чтобы Eureka не убивала сервисы при кратковременных сбоях
-    peer-eureka-nodes-update-interval-ms: 10000
-    peer-node-read-timeout-ms: 2000
-    peer-node-connect-timeout-ms: 2000
+    enable-self-preservation: true
     wait-time-in-ms-when-sync-empty: 0
 
-  logging:
-    level:
-      com.netflix.discovery: DEBUG
-      com.netflix.eureka: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
