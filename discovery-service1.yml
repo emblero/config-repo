@@ -4,5 +4,14 @@ server:
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: false  # Отключаем самолигистрацию
+    fetch-registry: false       # Отключаем получение реестра
+    service-url:
+      defaultZone: http://discovery-service1:8761/eureka/
+  
+  instance:
+    hostname: discovery-service1  # Должен совпадать с hostname в docker-compose
+    
+  server:
+    wait-time-in-ms-when-sync-empty: 0  # Ускоряем старт
+    enable-self-preservation: false      # Отключаем защитный режим
