@@ -7,7 +7,7 @@ eureka:
     register-with-eureka: true  # Отключаем самолигистрацию
     fetch-registry: true       # Отключаем получение реестра
     service-url:
-      defaultZone: http://discovery-service1:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
   
   instance:
     hostname: discovery-service1  # Должен совпадать с hostname в docker-compose
