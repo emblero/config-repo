@@ -4,8 +4,8 @@ server:
 
 eureka:
   client:
-    register-with-eureka: false  # Отключаем самолигистрацию
-    fetch-registry: false       # Отключаем получение реестра
+    register-with-eureka: true  # Отключаем самолигистрацию
+    fetch-registry: true       # Отключаем получение реестра
     service-url:
       defaultZone: http://discovery-service1:8761/eureka/
   
