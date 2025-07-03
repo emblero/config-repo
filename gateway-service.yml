@@ -12,6 +12,11 @@ spring:
           uri: lb://order-service
           predicates:
             - Path=/api/orders/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: orderService
+                fallbackUri: forward:/fallback/order
     config:
       fail-fast: false
       retry:
@@ -21,16 +26,24 @@ spring:
 
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://discovery-service1:8761/eureka/
     healthcheck:
       enabled: true
+    registry-fetch-interval-seconds: 5  # Частота обновления реестра
   instance:
-    lease-renewal-interval-in-seconds: 30
-    lease-expiration-duration-in-seconds: 90
+    hostname: gateway-service
+    prefer-ip-address: false
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,metrics
+        include: *
+  endpoint:
+    health:
+      show-details: always
