@@ -26,10 +26,8 @@ spring:
 
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
     service-url:
-      defaultZone: http://discovery-service1:8761/eureka/
+      defaultZone: http://host.docker.internal:8761/eureka/
     healthcheck:
       enabled: true
     registry-fetch-interval-seconds: 5  # Частота обновления реестра
