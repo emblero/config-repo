@@ -1,0 +1,13 @@
+spring:
+  name: gatewayService
+  server:
+    port: 8080
+  cloud:
+    gateway:
+      routes:
+        - id: order-service
+          uri: https://localhost:8081
+        - id: PaymentService
+          uri: https://localhost:8082
+        - id: ticketService
+          uri: https://localhost:8083
