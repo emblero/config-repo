@@ -25,7 +25,7 @@ server:
 
 eureka:
   client:
-    enabled: false
+    enabled: true
     service-url:
       defaultZone: http://localhost:8080/eureka/
     register-with-eureka: true
