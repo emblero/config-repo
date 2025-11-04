@@ -7,7 +7,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/authdb  # или ваш URL из Docker Compose
+    url: jdbc:postgresql://localhost:5432/authdb  
     username: ${DB_USERNAME:auth_user}
     password: ${DB_PASSWORD:auth_pass}
     driver-class-name: org.postgresql.Driver
